@@ -54,14 +54,16 @@ export const ActiveRoom = ({ roomID, username }) => {
   const [roomStatus, setRoomStatus] = useState('');
   const [copied, setCopied] = useState(false);
   const [roomName, setRoomName] = useState('');
-
+  const [roomCategory, setRoomCategory] = useState('');
+  
   useEffect(() => {
     setValue(window.location.origin + '/join/' + roomID);
 
     apiPath.get(`/status/${roomID}`).then((response) => {
       console.log('initial', response);
-      
-      setRoomName('');
+
+      setRoomName(response.data.room_name);
+      setRoomCategory(response.data.room_category);
       setPlayers(response.data.players);
       setRoomStatus(response.data.status);
     });
@@ -70,7 +72,8 @@ export const ActiveRoom = ({ roomID, username }) => {
       apiPath.get(`/status/${roomID}`).then((response) => {
         console.log('interval', response);
 
-        setRoomName('');
+        setRoomName(response.data.room_name);
+        setRoomCategory(response.data.room_category);
         setPlayers(response.data.players);
         setRoomStatus(response.data.status);
       }).catch(() => {
@@ -91,11 +94,15 @@ export const ActiveRoom = ({ roomID, username }) => {
     <main className={styles.main}>
       <div className={styles.roomWrapper}>
         <p className={styles.roomName}>
-          Room ID: {roomName}
+          Room Name: {roomName}
+          <br/>
+          Room Category: {roomCategory}
         </p>
 
-        <CopyToClipboard text={value}
-          onCopy={() => setCopied(true)}>
+        <CopyToClipboard
+          text={value}
+          onCopy={() => setCopied(true)}
+        >
           <p
             style={{
               cursor: 'pointer',
