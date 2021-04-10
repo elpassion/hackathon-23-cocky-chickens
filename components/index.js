@@ -37,6 +37,7 @@ export const NameInput = ({ onChange, value }) => {
         value={value}
         type="text"
         placeholder="Your username"
+        minLength={3}
         className={styles.input}
       />
     </div>

@@ -17,18 +17,14 @@ export default function Create() {
     evt.preventDefault();
     setLoading(true);
 
-    if (username.length > 3) {
-      apiPath.post('/create', { username }).then((response) => {
-        setActiveRoom(response.data.room_id);
-        setUsername(response.data.username);
-      }).catch((error) => {
-        alert('Coś poszło nie tak!')
-      }).finally(() => {
-        setLoading(false);
-      })
-    }
-
-    return null;
+    apiPath.post('/create', { username }).then((response) => {
+      setActiveRoom(response.data.room_id);
+      setUsername(response.data.username);
+    }).catch((error) => {
+      alert('Coś poszło nie tak!')
+    }).finally(() => {
+      setLoading(false);
+    })
   }
 
   return (
@@ -68,13 +64,16 @@ export default function Create() {
               </div>
 
               <div className={styles.row}>
-                <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
+                {isLoading ? 'Creating a game...' : (
+                  <>
+                    <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
 
-                <button className={styles.button}>
-                  Enter
-                </button>
+                    <button className={styles.button}>
+                      Enter
+                    </button>
+                  </>
+                )}
               </div>
-
             </form>
           </main>
         </>
