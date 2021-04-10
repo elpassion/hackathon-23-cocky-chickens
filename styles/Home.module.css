@@ -229,10 +229,15 @@
   border-radius: .25rem;
 }
 
-@media (max-width: 768px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
+@media (min-width: 768px) {
+  .roomListing {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.25rem;
+    min-width: 640px;
+  }
+  
+  .roomItem {
+    margin: 0;
   }
 }
-
