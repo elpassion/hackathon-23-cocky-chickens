@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import { apiPath } from '../helpers/api';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 export const MetaHead = ({ title }) => {
   return (
@@ -41,19 +42,31 @@ export const NameInput = ({ onChange, value }) => {
   )
 }
 
+const STATUS_OPEN = 'open';
+const STATUS_LIVE = 'on_air';
+const STATUS_CLOSED = 'closed';
+
 export const ActiveRoom = ({ roomID, username }) => {
   const myUsername = username;
   const [players, setPlayers] = useState([]);
+  const [value, setValue] = useState('');
+  const [roomStatus, setRoomStatus] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    setValue(window.location.origin + '/join/' + roomID);
+
     setInterval(() => {
       apiPath.get(`/status/${roomID}`).then((response) => {
         setPlayers(response.data.players);
-      }).catch((error) => {
+        setRoomStatus(response.data.status);
+      }).catch(() => {
         alert('Coś poszło nie tak!')
       })
     }, 2400);
   }, []);
+
+  console.log(roomStatus);
 
   return (
     <main className={styles.main}>
@@ -62,11 +75,28 @@ export const ActiveRoom = ({ roomID, username }) => {
           Room ID: {roomID}
         </p>
 
+        <CopyToClipboard text={value}
+          onCopy={() => setCopied(true)}>
+          <p
+            style={{
+              cursor: 'pointer',
+              margin: '1rem auto',
+              width: '100%',
+              textAlign: 'center',
+              background: '#eaeaea',
+              padding: '.25rem',
+              borderRadius: '.75rem',
+            }}
+          >
+            {copied ? 'Copied!' : 'Copy invite to clipboard'}
+          </p>
+        </CopyToClipboard>
+
         {players.length > 0 ? (
           <>
             {players.map((player) => {
               return (
-                <div className={styles.playerList}>
+                <div className={styles.playerList} key={player.username}>
                   <p>
                     {player.username}
                   </p>
@@ -91,6 +121,24 @@ export const ActiveRoom = ({ roomID, username }) => {
           <div className={styles.loading}>
             Loading players list...
           </div>
+        )}
+        {(roomStatus === STATUS_OPEN && players.length > 2) && (
+          <p
+            style={{
+              cursor: 'pointer',
+              margin: '1rem auto',
+              width: '100%',
+              textAlign: 'center',
+              background: '#69d73b',
+              padding: '.5rem',
+              borderRadius: '.75rem',
+              color: '#fff',
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+            }}
+          >
+            START
+          </p>
         )}
       </div>
     </main>

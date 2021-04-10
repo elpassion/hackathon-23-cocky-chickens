@@ -13,14 +13,18 @@ export default function Create() {
     evt.preventDefault();
     setLoading(true);
 
-    apiPath.post('/create', { username }).then((response) => {
-      setActiveRoom(response.data.room_id);
-      setUsername(response.data.username);
-    }).catch((error) => {
-      alert('Coś poszło nie tak!')
-    }).finally(() => {
-      setLoading(false);
-    })
+    if (username.length > 3) {
+      apiPath.post('/create', { username }).then((response) => {
+        setActiveRoom(response.data.room_id);
+        setUsername(response.data.username);
+      }).catch((error) => {
+        alert('Coś poszło nie tak!')
+      }).finally(() => {
+        setLoading(false);
+      })
+    }
+
+    return null;
   }
 
   return (
