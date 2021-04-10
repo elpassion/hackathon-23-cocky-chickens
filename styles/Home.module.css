@@ -90,12 +90,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 5rem;
-  width: 5rem;
+  height: 3.95rem;
+  width: 3.95rem;
   text-align: center;
   padding: 0 1rem;
   margin: 0 .25rem;
-  font-size: 1.2rem;
+  font-size: .9rem;
 }
 
 .catIcon:hover {

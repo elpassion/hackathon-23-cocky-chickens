@@ -6,6 +6,9 @@ import { apiPath } from '../helpers/api';
 
 const CAT_ANIMALS = 'animals';
 const CAT_PEOPLE = 'people';
+const CAT_HOUSEHOLD = 'household';
+const CAT_PLANTS = 'plants';
+const CAT_HARDCORE = 'hardcore';
 
 export default function Create() {
   const [username, setUsername] = useState('');
@@ -47,22 +50,40 @@ export default function Create() {
               </p>
 
               <div className={styles.row}>
-                <div
-                  className={`${styles.catIcon} ${category === CAT_ANIMALS && styles.active}`}
+                <CategoryItem
                   onClick={() => selectCategory(CAT_ANIMALS)}
-                >
-                    <span>
-                      🐕
-                    </span>
-                </div>
-                <div
-                  className={`${styles.catIcon} ${category === CAT_PEOPLE && styles.active}`}
+                  emoji="🐕"
+                  active={category}
+                  catID={CAT_ANIMALS}
+                />
+
+                <CategoryItem
                   onClick={() => selectCategory(CAT_PEOPLE)}
-                >
-                  <span>
-                    👨
-                  </span>
-                </div>
+                  emoji="👨"
+                  active={category}
+                  catID={CAT_PEOPLE}
+                />
+
+                <CategoryItem
+                  onClick={() => selectCategory(CAT_HOUSEHOLD)}
+                  emoji="🏡"
+                  active={category}
+                  catID={CAT_HOUSEHOLD}
+                />
+
+                <CategoryItem
+                  onClick={() => selectCategory(CAT_PLANTS)}
+                  emoji="🌿"
+                  active={category}
+                  catID={CAT_PLANTS}
+                />
+
+                <CategoryItem
+                  onClick={() => selectCategory(CAT_HARDCORE)}
+                  emoji="💥"
+                  active={category}
+                  catID={CAT_HARDCORE}
+                />
               </div>
 
               <div className={styles.row}>
@@ -85,3 +106,16 @@ export default function Create() {
     </div>
   )
 }
+
+const CategoryItem = ({ onClick, emoji, active, catID }) => {
+  return (
+    <div
+      className={`${styles.catIcon} ${active === catID && styles.active}`}
+      onClick={onClick}
+    >
+    <span>
+      {emoji}
+    </span>
+  </div>
+  )
+};
