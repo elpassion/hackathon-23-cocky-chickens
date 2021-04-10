@@ -79,7 +79,7 @@ export const ActiveRoom = ({ roomID, username }) => {
                     </p>
                   ) : (
                     <p className={styles.you}>
-                      Ty!
+                      You
                     </p>
                   )}
 
