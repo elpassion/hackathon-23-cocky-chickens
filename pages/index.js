@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { Footer, MetaHead } from '../components';
+import { Footer, MetaHead, RoomsList } from '../components';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -20,6 +20,8 @@ export default function Home() {
             </a>
           </Link>
         </div>
+
+        <RoomsList />
       </main>
 
       <Footer />

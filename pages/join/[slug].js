@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Footer, MetaHead, NameInput, ActiveRoom } from '../../components';
 import styles from '../../styles/Home.module.css';
 import { useRouter } from 'next/router'
@@ -13,14 +13,15 @@ export default function Join() {
   const [roomName, setRoomName] = useState('');
   const [roomCategory, setRoomCategory] = useState('');
   const roomID = router.query.slug;
+  const routerNotReady = router.query.slug !== undefined;
 
   useEffect(() => {
-    apiPath.get(`/status/${roomID}`).then((response) => {
-      console.log('initial', response);
-      
-      setRoomName(response.data.room_name);
-      setRoomCategory(response.data.room_category);
-    });
+    if (router.query.slug !== undefined) {
+      apiPath.get(`/status/${roomID}`).then((response) => {        
+        setRoomName(response.data.room_name);
+        setRoomCategory(response.data.room_category);
+      });
+    }
   }, [router]);
 
   const submitForm = (evt) => {
@@ -49,14 +50,16 @@ export default function Join() {
               Join game
             </h1>
 
-            <div className={styles.gameInfo}>
-              <p>
-                <strong>Name:</strong> {roomName}
-              </p>
-              <p>
-                <strong>Category:</strong> {roomCategory}
-              </p>
-            </div>
+            {!!roomName && !!roomCategory && (
+              <div className={styles.gameInfo}>
+                <p>
+                  <strong>Name:</strong> {roomName}
+                </p>
+                <p>
+                  <strong>Category:</strong> {roomCategory}
+                </p>
+              </div>
+            )}
 
             <form className={styles.enterName} onSubmit={submitForm}>
               <div className={styles.row}>

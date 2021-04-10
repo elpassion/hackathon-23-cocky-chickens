@@ -151,6 +151,7 @@
   max-width: 370px;
   margin: 0 auto;
   height: auto;
+  min-width: 300px;
   padding: 0 .75rem;
   border: 1px solid #eaeaea;
   border-radius: .75rem;
@@ -160,9 +161,10 @@
 .roomName {
   background: #0070f3;
   color: #fff;
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem;
   margin: 0 -.75rem;
   font-size: .75rem;
+  text-align: center;
 }
 
 .loading {
@@ -190,7 +192,44 @@
   color: #3d8121;
 }
 
-@media (max-width: 600px) {
+.roomListing {
+  margin: 1rem auto;
+  width: 100%;
+  max-width: 480px;
+}
+
+.roomItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #eaeaea;
+  border-radius: 1rem;
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  box-shadow: 0 3px 7px #eee;
+}
+
+.roomDetails {
+  font-size: .825rem;
+}
+
+.roomDetails p {
+  margin: 0;
+}
+
+.joinButton {
+  cursor: pointer;
+  appearance: none;
+  border: 1px solid #56aa35;
+  background: #56aa35;
+  color: #fff;
+  font-weight: bold;
+  padding: .25rem 1rem;
+  border-radius: .25rem;
+}
+
+@media (max-width: 768px) {
   .grid {
     width: 100%;
     flex-direction: column;

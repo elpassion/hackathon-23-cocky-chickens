@@ -12,6 +12,7 @@ export default function Create() {
   const [isLoading, setLoading] = useState(false);
   const [activeRoom, setActiveRoom] = useState('');
   const [category, selectCategory] = useState(CAT_ANIMALS);
+  const [roomName, setRoomName] = useState('');
 
   const submitForm = (evt) => {
     evt.preventDefault();
@@ -20,6 +21,7 @@ export default function Create() {
     apiPath.post('/create', { username, room_category: category }).then((response) => {
       setActiveRoom(response.data.room_id);
       setUsername(response.data.username);
+      setRoomName(response.data.room_name);
     }).catch((error) => {
       alert('Coś poszło nie tak!')
     }).finally(() => {
@@ -30,7 +32,7 @@ export default function Create() {
   return (
     <div className={styles.container}>
       {!!activeRoom ? (
-        <ActiveRoom roomID={activeRoom} username={username} />
+        <ActiveRoom roomID={activeRoom} username={username} category={category} name={roomName} />
       ) : (
         <>
           <MetaHead title="Create the room" />

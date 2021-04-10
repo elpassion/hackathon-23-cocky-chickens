@@ -47,31 +47,27 @@ export const NameInput = ({ onChange, value }) => {
 const STATUS_OPEN = 'open';
 const STATUS_LIVE = 'on_air';
 
-export const ActiveRoom = ({ roomID, username }) => {
+export const ActiveRoom = ({ roomID, username, category, name }) => {
   const myUsername = username;
   const [players, setPlayers] = useState([]);
   const [value, setValue] = useState('');
   const [roomStatus, setRoomStatus] = useState('');
   const [copied, setCopied] = useState(false);
-  const [roomName, setRoomName] = useState('');
-  const [roomCategory, setRoomCategory] = useState('');
+  const [roomName, setRoomName] = useState(name);
+  const [roomCategory, setRoomCategory] = useState(category);
   
   useEffect(() => {
     setValue(window.location.origin + '/join/' + roomID);
 
     apiPath.get(`/status/${roomID}`).then((response) => {
-      console.log('initial', response);
-
       setRoomName(response.data.room_name);
       setRoomCategory(response.data.room_category);
       setPlayers(response.data.players);
       setRoomStatus(response.data.status);
     });
 
-    setInterval(() => {
+    const interval = setInterval(() => {
       apiPath.get(`/status/${roomID}`).then((response) => {
-        console.log('interval', response);
-
         setRoomName(response.data.room_name);
         setRoomCategory(response.data.room_category);
         setPlayers(response.data.players);
@@ -80,6 +76,8 @@ export const ActiveRoom = ({ roomID, username }) => {
         alert('Coś poszło nie tak!')
       })
     }, 4000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const startGame = () => {
@@ -94,9 +92,9 @@ export const ActiveRoom = ({ roomID, username }) => {
     <main className={styles.main}>
       <div className={styles.roomWrapper}>
         <p className={styles.roomName}>
-          Room Name: {roomName}
+          <strong>{roomName}</strong>
           <br/>
-          Room Category: {roomCategory}
+          Category: <strong>{roomCategory}</strong>
         </p>
 
         <CopyToClipboard
@@ -170,4 +168,61 @@ export const ActiveRoom = ({ roomID, username }) => {
       </div>
     </main>
   )
+}
+
+export const RoomsList = () => {
+  const [rooms, setRoomList] = useState([]);
+
+  useEffect(() => {
+    apiPath.get('/rooms').then((response) => {
+      setRoomList(response.data.rooms);
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    const interval = setInterval(() => {
+      apiPath.get('/rooms').then((response) => {
+        setRoomList(response.data.rooms);
+      }).catch((error) => {
+        console.log(error);
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (rooms.length > 0) {
+    return (
+      <div style={{ width: '100%' }}>
+        <h4 style={{ textAlign: 'center' }}>
+          or join any open game
+        </h4>
+        
+        <div className={styles.roomListing}>
+          {rooms.map((room) => {
+            return (
+              <div className={styles.roomItem} key={room.room_name}>
+                <div className={styles.roomDetails}>
+                  <p>
+                    {room.room_name}
+                  </p>
+                  <p>
+                    Category: <strong>{room.room_category}</strong>
+                  </p>
+                </div>
+
+                <Link href={`/join/${room.room_id}`}>
+                  <a className={styles.joinButton}>
+                    Join
+                  </a>
+                </Link>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  return null;
 }
