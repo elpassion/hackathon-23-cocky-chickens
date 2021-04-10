@@ -36,6 +36,7 @@ export const NameInput = ({ onChange, value }) => {
         onChange={onChange}
         value={value}
         type="text"
+        placeholder="Your username"
         className={styles.input}
       />
     </div>
@@ -43,7 +44,7 @@ export const NameInput = ({ onChange, value }) => {
 }
 
 const STATUS_OPEN = 'open';
-// const STATUS_LIVE = 'on_air';
+const STATUS_LIVE = 'on_air';
 // const STATUS_CLOSED = 'closed';
 
 export const ActiveRoom = ({ roomID, username }) => {
@@ -56,8 +57,15 @@ export const ActiveRoom = ({ roomID, username }) => {
   useEffect(() => {
     setValue(window.location.origin + '/join/' + roomID);
 
+    apiPath.get(`/status/${roomID}`).then((response) => {
+      setPlayers(response.data.players);
+      setRoomStatus(response.data.status);
+    });
+
     setInterval(() => {
       apiPath.get(`/status/${roomID}`).then((response) => {
+        console.log(response);
+
         setPlayers(response.data.players);
         setRoomStatus(response.data.status);
       }).catch(() => {
@@ -68,7 +76,7 @@ export const ActiveRoom = ({ roomID, username }) => {
 
   const startGame = () => {
     apiPath.post(`/start/${roomID}`).then((response) => {
-      console.log('started!');
+      setRoomStatus(STATUS_LIVE);
     }).catch(() => {
       alert('Coś poszło nie tak!')
     })

@@ -4,10 +4,14 @@ import styles from '../styles/Home.module.css';
 import { useState } from 'react';
 import { apiPath } from '../helpers/api';
 
+const CAT_ANIMALS = 'animals';
+const CAT_PEOPLE = 'people';
+
 export default function Create() {
   const [username, setUsername] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [activeRoom, setActiveRoom] = useState('');
+  const [category, selectCategory] = useState(CAT_ANIMALS);
 
   const submitForm = (evt) => {
     evt.preventDefault();
@@ -36,15 +40,41 @@ export default function Create() {
           <MetaHead title="Create the room" />
           <main className={styles.main}>
             <h1 className={styles.title}>
-              Your username
+              New game
             </h1>
 
             <form className={styles.enterName} onSubmit={submitForm}>
-              <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
+              <p>
+                Select Category:
+              </p>
 
-              <button className={styles.button}>
-                Enter
-              </button>
+              <div className={styles.row}>
+                <div
+                  className={`${styles.catIcon} ${category === CAT_ANIMALS && styles.active}`}
+                  onClick={() => selectCategory(CAT_ANIMALS)}
+                >
+                    <span>
+                      🐕
+                    </span>
+                </div>
+                <div
+                  className={`${styles.catIcon} ${category === CAT_PEOPLE && styles.active}`}
+                  onClick={() => selectCategory(CAT_PEOPLE)}
+                >
+                  <span>
+                    👨
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.row}>
+                <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
+
+                <button className={styles.button}>
+                  Enter
+                </button>
+              </div>
+
             </form>
           </main>
         </>

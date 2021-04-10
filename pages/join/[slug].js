@@ -35,15 +35,26 @@ export default function Join() {
             <MetaHead title="Join Room" />
             <main className={styles.main}>
               <h1 className={styles.title}>
-                Your username
+                Join game
               </h1>
 
-              <form className={styles.enterName} onSubmit={submitForm}>
-                <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
+              <div className={styles.gameInfo}>
+                <p>
+                  <strong>Name:</strong> Sample Name
+                </p>
+                <p>
+                  <strong>Category:</strong> Animals
+                </p>
+              </div>
 
-                <button className={styles.button}>
-                  Enter
-                </button>
+              <form className={styles.enterName} onSubmit={submitForm}>
+                <div className={styles.row}>
+                  <NameInput value={username} onChange={(e) => setUsername(e.target.value)}/>
+
+                  <button className={styles.button}>
+                    Enter
+                  </button>
+                </div>
               </form>
             </main>
           </>
