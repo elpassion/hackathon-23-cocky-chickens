@@ -43,8 +43,8 @@ export const NameInput = ({ onChange, value }) => {
 }
 
 const STATUS_OPEN = 'open';
-const STATUS_LIVE = 'on_air';
-const STATUS_CLOSED = 'closed';
+// const STATUS_LIVE = 'on_air';
+// const STATUS_CLOSED = 'closed';
 
 export const ActiveRoom = ({ roomID, username }) => {
   const myUsername = username;
@@ -65,6 +65,14 @@ export const ActiveRoom = ({ roomID, username }) => {
       })
     }, 2400);
   }, []);
+
+  const startGame = () => {
+    apiPath.post(`/start/${roomID}`).then((response) => {
+      console.log('started!');
+    }).catch(() => {
+      alert('Coś poszło nie tak!')
+    })
+  };
 
   console.log(roomStatus);
 
@@ -136,6 +144,7 @@ export const ActiveRoom = ({ roomID, username }) => {
               fontSize: '1.25rem',
               fontWeight: 'bold',
             }}
+            onClick={startGame}
           >
             START
           </p>
