@@ -17,7 +17,7 @@ export default function Create() {
     evt.preventDefault();
     setLoading(true);
 
-    apiPath.post('/create', { username }).then((response) => {
+    apiPath.post('/create', { username, room_category: category }).then((response) => {
       setActiveRoom(response.data.room_id);
       setUsername(response.data.username);
     }).catch((error) => {

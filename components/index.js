@@ -46,7 +46,6 @@ export const NameInput = ({ onChange, value }) => {
 
 const STATUS_OPEN = 'open';
 const STATUS_LIVE = 'on_air';
-// const STATUS_CLOSED = 'closed';
 
 export const ActiveRoom = ({ roomID, username }) => {
   const myUsername = username;
@@ -54,19 +53,24 @@ export const ActiveRoom = ({ roomID, username }) => {
   const [value, setValue] = useState('');
   const [roomStatus, setRoomStatus] = useState('');
   const [copied, setCopied] = useState(false);
+  const [roomName, setRoomName] = useState('');
 
   useEffect(() => {
     setValue(window.location.origin + '/join/' + roomID);
 
     apiPath.get(`/status/${roomID}`).then((response) => {
+      console.log('initial', response);
+      
+      setRoomName('');
       setPlayers(response.data.players);
       setRoomStatus(response.data.status);
     });
 
     setInterval(() => {
       apiPath.get(`/status/${roomID}`).then((response) => {
-        console.log(response);
+        console.log('interval', response);
 
+        setRoomName('');
         setPlayers(response.data.players);
         setRoomStatus(response.data.status);
       }).catch(() => {
@@ -87,7 +91,7 @@ export const ActiveRoom = ({ roomID, username }) => {
     <main className={styles.main}>
       <div className={styles.roomWrapper}>
         <p className={styles.roomName}>
-          Room ID: {roomID}
+          Room ID: {roomName}
         </p>
 
         <CopyToClipboard text={value}
