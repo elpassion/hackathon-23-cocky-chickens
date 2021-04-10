@@ -63,7 +63,7 @@ export const ActiveRoom = ({ roomID, username }) => {
       }).catch(() => {
         alert('Coś poszło nie tak!')
       })
-    }, 2400);
+    }, 4000);
   }, []);
 
   const startGame = () => {
@@ -73,8 +73,6 @@ export const ActiveRoom = ({ roomID, username }) => {
       alert('Coś poszło nie tak!')
     })
   };
-
-  console.log(roomStatus);
 
   return (
     <main className={styles.main}>
