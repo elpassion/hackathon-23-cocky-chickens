@@ -108,9 +108,54 @@
   padding: 0.5rem 2rem;
 }
 
+.roomWrapper {
+  width: 100%;
+  max-width: 370px;
+  margin: 0 auto;
+  height: auto;
+  padding: 0 .75rem;
+  border: 1px solid #eaeaea;
+  border-radius: .75rem;
+  overflow: hidden;
+}
+
+.roomName {
+  background: #0070f3;
+  color: #fff;
+  padding: 1rem;
+  margin: 0 -.75rem 1rem;
+  font-size: .75rem;
+}
+
+.loading {
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.playerList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 0;
+  margin: 0 0 1rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.playerList p {
+  margin: 0;
+  padding: 0;
+}
+
+.you {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #3d8121;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
   }
 }
+
